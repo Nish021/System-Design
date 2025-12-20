@@ -141,3 +141,29 @@ class Dog extends Animal {
 
 ## Key Takeaway
 > **Inheritance should be used carefully; misuse leads to tight coupling, incorrect domain modeling, and fragile systems.**
+
+## Abstraction Levels in an Inheritance Chain
+
+In an inheritance hierarchy, **abstraction decreases as we move down the chain**.
+
+The **topmost parent class** represents the most **general idea**, while each subsequent subclass adds more specific details and concrete behavior.
+
+> **Higher a class is in the inheritance hierarchy, higher is its level of abstraction.**
+
+Abstraction reduces as:
+- More implementation details are introduced
+- Behavior becomes more specific
+- Classes move closer to real-world execution
+
+- Payment Method → Highly abstract  
+- Digital Payment → Less abstract  
+- UPI Payment → More specific  
+- GPay UPI Payment → Concrete  
+- User’s GPay Account → Most concrete  
+
+Abstraction is **not determined by the number of methods implemented**, but by:
+- Level of generalization
+- Distance from implementation details
+- Ability to represent multiple concrete forms
+
+
