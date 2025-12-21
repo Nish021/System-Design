@@ -170,6 +170,112 @@ ReportGenerator - - - > EmailService
 - Acts as long-term documentation  
 
 ---
+## Sequence Diagram
+
+A **Sequence Diagram** is a **behavioral UML diagram** that shows **how objects interact with each other over time** to complete a specific use case.
+
+It focuses on:
+- Order of method calls
+- Message flow between objects
+- Runtime behavior of the system
+  
+> A sequence diagram represents object interactions arranged in time order to show how a process is executed.
+
+---
+
+## Main Elements of a Sequence Diagram
+
+### 1. Actor
+- External entity that initiates the interaction  
+- Example: User, Admin, External System
+
+### 2. Participant (Object)
+- Objects involved in the interaction  
+- Shown at the top of the diagram
+
+### 3. Lifeline
+- Vertical dashed line below each participant  
+- Represents the object’s existence over time
+
+### 4. Messages
+- Communication between objects  
+- Shown using arrows
+
+Types:
+- Synchronous (solid arrow)
+- Asynchronous (open arrow)
+- Return message (dashed arrow)
+
+### 5. Activation Bar
+- Thin rectangle on a lifeline  
+- Indicates when an object is executing logic
+
+---
+
+## Example: User Login Flow
+
+### Scenario
+A user logs into an application.
+
+### Participants
+- User  
+- LoginController  
+- AuthService  
+- UserRepository  
+
+### Step-by-Step Flow
+1. User sends login request to LoginController  
+2. LoginController forwards request to AuthService  
+3. AuthService fetches user data from UserRepository  
+4. UserRepository returns user details  
+5. AuthService validates credentials  
+6. LoginController sends success/failure response to User  
+
+---
+
+## Textual Representation (Conceptual)
+
+```
+User -> LoginController : login(username, password)
+LoginController -> AuthService : authenticate()
+AuthService -> UserRepository : findUser()
+UserRepository --> AuthService : user
+AuthService --> LoginController : result
+LoginController --> User : response
+```
+
+---
+
+## Why Sequence Diagrams Are Important
+
+- Visualize runtime behavior
+- Help design APIs and microservices
+- Identify unnecessary calls and tight coupling
+- Improve communication among teams
+
+---
+
+## Sequence Diagram vs Class Diagram
+
+| Aspect | Sequence Diagram | Class Diagram |
+|------|------------------|---------------|
+| Type | Behavioral | Structural |
+| Focus | Flow of execution | Structure |
+| Time | Yes | No |
+| Usage | Interaction design | System design |
+
+---
+
+## When to Use a Sequence Diagram
+
+- Login or authentication flow
+- Payment or transaction flow
+- Microservice communication
+- Complex business processes
+- Interview explanations
+
+---
+
 
 
 
