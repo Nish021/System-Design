@@ -1,7 +1,6 @@
 # Abstraction
 
-A word **Abstract** means existing only as an idea not a physical thing. **Abstraction** is the process of representing that idea by defining its essential behavior
-without committing to its implementation.
+A word **Abstract** means existing only as an idea not a physical thing. **Abstraction** is the process of representing that idea by defining its essential behavior without exposing its implementation.
 
 Abstraction is core idea/principle of oops and Inheritance, Polymorphism and Encapsulation supports this idea.
 - Encapsulation uses abstraction to hide data
