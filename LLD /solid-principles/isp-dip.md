@@ -56,7 +56,7 @@ class Penguin extends Bird implements Swimmable {
 # Dependency Inversion principle (DIP)
  **DIP states that two concrete classes should not depend on each other directly — instead, they should communicate through an abstraction (interface/abstract class) in between them.**.
 
- *In short → Concrete classes must depend on interfaces, not on each other.*
+ *In short → high-level modules should not depend on low-level modules. Both should depend on abstractions.*
 
  ### What does "Inversion" in DIP mean?
 
@@ -65,7 +65,7 @@ Normally in traditional code:
 High-level class → depends on → Low-level class
 ```
 
-Example: Bird → depends on → PigeonSparrowFly (concrete depends on concrete as shown in example below) ❌
+Example: Pigeon (low-level bird class) → depends on → PigeonSparrowFly concrete class ❌ (concrete depends on concrete as shown in example below) ❌
 This is **normal dependency direction**, but it creates tight coupling.
 
 DIP *inverts* this direction
@@ -110,22 +110,23 @@ class PSFly implements FlyBehaviour { public void fly(){ ... } }   // Pigeon, Sp
 class CEFly implements FlyBehaviour { public void fly(){ ... } }   // Crow, Eagle
 
 class Pigeon extends Bird {
-    FlyBehaviour flyBehaviour;
-    Pigeon(){ flyBehaviour = new PSFly(); } // depends on abstraction ✔
+   FlyBehaviour flyBehaviour;
+   Pigeon(FlyBehaviour flyBehaviour){  
+        this.flyBehaviour = flyBehaviour; 
+    }  // depends on abstraction ✔
 }
 
 class Crow extends Bird {
     FlyBehaviour flyBehaviour;
-    Crow(){ flyBehaviour = new CEFly(); } // abstraction ✔
+    Crow (FlyBehaviour flyBehaviour){  
+        this.flyBehaviour = flyBehaviour; // Constructor Injection : Concrete implementation is injected from outside
+    } 
 }
 ```
 if we want to changes the behaviour of Pigeon to `CEFly`, we have to instantiate the object with `CEFly` class
 
 ```java
-class Pigeon extends Bird {
-    FlyBehaviour flyBehaviour;
-    Pigeon(){ flyBehaviour = new CEFly(); } // depends on abstraction ✔
-}
+Bird pigeon = new Pigeon(new CEFly());
 ```
 Now **Bird no longer knows which flying class is used**, it only knows the interface.
 
@@ -154,6 +155,61 @@ Sparrow --> FlyBehaviour <---- PSFly
 
 We move the **power from concrete implementation → to abstraction**.
 **High-level logic stops depending on details — details now depend on abstraction.**
+
+## Dependency Injection
+Dependency Injection is a design technique where an object's required dependencies are provided ("injected") from outside rather than the object creating them itself.
+It is a way to follow **DIP** in practice.
+
+
+```java
+class Pigeon extends Bird {
+     FlyBehaviour flyBehaviour = new PSFly(); // Violates DIP, Tightly Coupled
+}
+
+class Pigeon extends Bird {
+     FlyBehaviour flyBehaviour; 
+     Pigeon () {
+      flyBehaviour = new PSFly(); // Violates DIP, Tightly Coupled
+     }
+}
+
+//Both still violate DIP because the class itself decides which implementation to use, not the external world.
+```
+
+```java
+class Pigeon extends Bird {
+    Pigeon(FlyBehaviour flyBehaviour){  
+        this.flyBehaviour = flyBehaviour; // Constructor Injection : Concrete implementation is injected from outside
+    } 
+}
+
+//while Creating object
+Bird pigeon = new Pigeon(new PSFly());  // Inject behaviour at runtime
+Bird sparrow = new Sparrow(new PSFly());
+Bird eagle = new Eagle(new CEFly());
+
+```
+```java
+class Pigeon extends Bird {
+    FlyBehaviour flyBehaviour;      // depends on abstraction
+
+    // Setter Injection
+    void setFlyBehaviour(FlyBehaviour flyBehaviour){
+        this.flyBehaviour = flyBehaviour;
+    }
+}
+
+Pigeon pigeon = new Pigeon();
+pigeon.setFlyBehaviour(new PSFly());    // behaviour injected later ✔
+```
+Setter Injection allows changing FlyBehaviour even after the object is created.  
+Useful when behaviours need to switch dynamically (runtime strategy change).
+
+| Use Setter Injection when                  | Use Constructor Injection when             |
+| ------------------------------------------ | ------------------------------------------ |
+| Behaviour may change after object creation | Behaviour is mandatory for object creation |
+| You want runtime swap flexibility          | You want immutability once set             |
+| Optional dependency                        | Required dependency                        |
 
 
 
