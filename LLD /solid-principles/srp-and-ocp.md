@@ -1,4 +1,4 @@
-# Solid Responsibility Principle (SRP)
+# Single Responsibility Principle (SRP)
 
 **SRP states that Every Code unit in your codebase should have exactly one well defined responsibility.**
 *Exactly **One Reason** to change.*
